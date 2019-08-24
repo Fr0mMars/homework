@@ -100,9 +100,7 @@ console.log(result22);
  Пример:
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
-function returnArgumentsArray(a) {
-  let a = []
-
+function returnArgumentsArray() {
 }
 
 /*
