@@ -18,7 +18,7 @@ function returnFirstArgument(x) {
 }
 
 var result1 = returnFirstArgument('Hello world');
-console.log(result1)
+console.log(result1);
 
 /*
  Задание 2:
@@ -29,27 +29,24 @@ console.log(result1)
    sumWithDefaults(10, 20) вернет 30
    sumWithDefaults(2, 4) вернет 6
 */
-   function sumWithDefaults(a, b) {
-     var result = a + b;
-     return result;
-   }
 
-   var result21 = sumWithDefaults(1, 10);
-   console.log(result21)
-  /*
- 2.1 *: Значение по умолчанию для второго аргумента должно быть равно 100
+function sumWithDefaults(a, b = 100) {
+  /*b = typeof b !== 'undefined' ?  b : 100;*/
+  var result = a + b;
+  return result;
+}
+var result21 = sumWithDefaults(1, 10);
+console.log(result21);
 
- Пример:
-   sumWithDefaults(10) вернет 110
- */
- function sumWithDefaults(a) {
-     const b = 100;
-     var result = a + b;
-     return result;
- }
+/*
+2.1 *: Значение по умолчанию для второго аргумента должно быть равно 100
+Пример:
+ sumWithDefaults(10) вернет 110
+*/
 
- var result22 = sumWithDefaults(1);
- console.log(result22)
+var result22 = sumWithDefaults(10);
+console.log(result22);
+
 /*
  Задание 3:
 
@@ -81,17 +78,18 @@ console.log(result1)
    console.log(f()); // выведет 13
  */
 
-function returnCounter(number) {
+ function returnCounter(number) {
+ var count = 0;
+   return function F () {
+     ++count;
+     return number + count;
+   }
+ }
+ var f = returnCounter(10);
 
-  return function F () {
-    return number + 1;
-    }
-}
-var f = returnCounter(10);
-
-console.log(f())
-console.log(f())
-console.log(f())
+ console.log(f());
+ console.log(f());
+ console.log(f());
 
 /*
  Задание 5 *:
@@ -102,7 +100,9 @@ console.log(f())
  Пример:
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
-function returnArgumentsArray() {
+function returnArgumentsArray(a) {
+  let a = []
+
 }
 
 /*
