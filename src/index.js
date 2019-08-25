@@ -12,13 +12,12 @@
 
  Другими словами: функция должна возвращать в неизменном виде то, что поступает ей на вход
  */
-function returnFirstArgument(x) {
-  var result = x;
-  return result;
-}
+ function returnFirstArgument(x) {
+   return x;
+ }
 
-var result1 = returnFirstArgument('Hello world');
-console.log(result1);
+ var result1 = returnFirstArgument('Hello world');
+ console.log(result1);
 
 /*
  Задание 2:
@@ -32,8 +31,7 @@ console.log(result1);
 
 function sumWithDefaults(a, b = 100) {
   /*b = typeof b !== 'undefined' ?  b : 100;*/
-  var result = a + b;
-  return result;
+  return a + b;
 }
 var result21 = sumWithDefaults(1, 10);
 console.log(result21);
@@ -55,16 +53,16 @@ console.log(result22);
  Пример:
    returnFnResult(() => 'привет') вернет 'привет'
  */
+
  function returnFnResult(fn) {
-     var r = fn();
-     console.log(r);
+   return fn();
  }
- returnFnResult(function() {
-     return 'Hello world';
+ returnFnResult(() => console.log ('Hello world'));
+/*
+ returnFnResult(function()  {
+   console.log ('Hello world')
  });
 
-
-/*
  Задание 4:
 
  Функция должна принимать число и возвращать новую функцию (F)
