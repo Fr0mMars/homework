@@ -98,9 +98,10 @@ console.log(result22);
  Пример:
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
-function returnArgumentsArray() {
+function returnArgumentsArray(...a) {
+    return a
 }
-
+console.log(returnArgumentsArray(1, 2, 3, 4, 5, 'Hello world'))
 /*
  Задание 6 *:
 
