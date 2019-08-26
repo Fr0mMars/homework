@@ -99,9 +99,9 @@ console.log(result22);
    returnArgumentsArray(1, 2, 3) вернет [1, 2, 3]
  */
 function returnArgumentsArray(...a) {
-    return a
+    return a;
 }
-console.log(returnArgumentsArray(1, 2, 3, 4, 5, 'Hello world'))
+console.log(returnArgumentsArray(1, 2, 3, 4, 5, 'Hello world'));
 /*
  Задание 6 *:
 
