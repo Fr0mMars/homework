@@ -9,15 +9,9 @@
  function forEach(array, fn) {
      for (var i = 0; i < array.length; i++) {
          fn(array[i], i, array);
-
-         console.log(i, array[i], array);
      }
  }
- var array = ["a", "b", "c", "d"];
- const fn = (item, i, array) => {
-   return item + 1;
- }
- forEach(array, fn);
+
 /*
  Задание 2:
 
@@ -29,15 +23,9 @@
      for (let i = 0; i < array.length; i++) {
          array2[i] = fn(array[i], i, array);
      }
-     console.log(array2);
      return array2;
  }
- var array = ["a", "b", "c", "d"];
- const fn = function(item, i, array2) {
-     return item;
- }
- map(array, fn);
- console.log(array);
+
 
 /*
  Задание 3:
@@ -46,23 +34,14 @@
  Посмотрите как работает reduce и повторите это поведение для массива, который будет передан в параметре array
  */
  function reduce(array, fn, initial) {
-   let i = 0;
-   let result = initial || array[i++];
-
+   var i = 0;
+   var result = initial || array[i++];
    while (i < array.length) {
      result = fn(result, array[i], i, array);
      i++;
    }
-   console.log(result);
    return result;
  }
- var array = ["a", "b", "c", "d"];
-
- const fn = function(result, array[i], i, array) {
-   return previousValue;
- }
-
- reduce(array, fn, initial)
 
 
 /*
@@ -79,15 +58,8 @@
      item = item.toUpperCase();
      arr.push(item);
    }
-   console.log(arr);
    return arr;
  }
- var obj = {
-   name: 'man',
-   eyesColor: 'brown',
-   hairColor: 'black'
- };
- upperProps(obj)
 /*
  Задание 5 *:
 
