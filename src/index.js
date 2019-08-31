@@ -188,7 +188,6 @@ try{
 try  {calculator(1,2,3,4)
 } catch (e) {
      console.log(e.message);
-     return arr;
  }
 
 /* При решении задач, пострайтесь использовать отладчик */
