@@ -116,11 +116,11 @@ try{
              v = fn(arguments[i]);
              arr.push(arguments[i]);
          }
+         return arr;
  }
  try  {returnBadArguments
 } catch (e) {
       console.log(e.message);
-      return arr;
   }
 
 /*
