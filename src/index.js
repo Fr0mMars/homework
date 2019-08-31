@@ -76,7 +76,7 @@ console.log(result22);
    console.log(f()); // выведет 13
  */
 
- function returnCounter(number) {
+ function returnCounter(number=0) {
  var count = 0;
    return function F () {
      ++count;
