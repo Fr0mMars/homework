@@ -107,21 +107,21 @@ try{
    - fn не является функцией (с текстом "fn is not a function")
  */
  function returnBadArguments(fn) {
-     var arr = new Array();
-     var v;
-         if (typeof fn != 'function') {
-             throw new Error("fn is not a function");
-         }
-         for (var i = 1; i < arguments.length; i++) {
-             v = fn(arguments[i]);
+     var arr = [];
+     var f;
+     if (typeof fn != 'function') {
+         throw new Error("fn is not a function");
+         console.log(e.message);
+     }
+     for (var i = 1; i < arguments.length; i++) {
+         try {
+             f = fn(arguments[i]);
+         } catch (e) {
              arr.push(arguments[i]);
          }
-         return arr;
+     }
+     return arr;
  }
- try  {returnBadArguments
-} catch (e) {
-      console.log(e.message);
-  }
 
 /*
  Задание 4:
