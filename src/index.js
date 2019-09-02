@@ -11,6 +11,9 @@
    createDivWithText('loftschool') // создаст элемент div, поместит в него 'loftschool' и вернет созданный элемент
  */
 function createDivWithText(text) {
+  const element = document.createElement('div');
+  element.textContent = 'loftschool';
+  return element;
 }
 
 /*
@@ -22,6 +25,7 @@ function createDivWithText(text) {
    prepend(document.querySelector('#one'), document.querySelector('#two')) // добавит элемент переданный первым аргументом в начало элемента переданного вторым аргументом
  */
 function prepend(what, where) {
+  where.prepend(what);
 }
 
 /*
@@ -44,8 +48,15 @@ function prepend(what, where) {
    findAllPSiblings(document.body) // функция должна вернуть массив с элементами div и span т.к. следующим соседом этих элементов является элемент с тегом P
  */
 function findAllPSiblings(where) {
+  let array = [];
+  let element = where.children;
+  for (const node of body.children) {
+    if (element.nextElementSibling.nodeName === 'p') {
+      array.push(element);
+  }
 }
-
+  return array;
+}
 /*
  Задание 4:
 
@@ -64,10 +75,10 @@ function findAllPSiblings(where) {
    findError(document.body) // функция должна вернуть массив с элементами 'привет' и 'loftschool'
  */
 function findError(where) {
-    var result = [];
+  let result = [];
 
-    for (var child of where.childNodes) {
-        result.push(child.innerText);
+    for (let child of where.childNodes) {
+        result.push(where.child.innerText);
     }
 
     return result;
@@ -86,6 +97,12 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
+  let element = where.childNodes;
+  for (let child of where.childNodes) {
+      if (element.nodeType === 3) {
+        element.parentNode.removeChild(element);
+      }
+  }
 }
 
 /*
@@ -100,6 +117,18 @@ function deleteTextNodes(where) {
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
+  {
+
+    for (let child of where.childNodes) {
+        let child = where.childNodes;
+
+        if (child.nodeType === 3) {
+            where.removeChild(child);
+        } else if (child.nodeType === 1) {
+            deleteTextNodesRecursive(child); // вызываем рекурсию
+        }
+    }
+}
 }
 
 /*
