@@ -44,8 +44,8 @@ function findAllPSiblings(where) {
   let array = [];
   let element = where.children;
   for (const node of where.children) {
-    if (element.nextElementSibling.tagName === 'P') {
-      array.push(element);
+    if (node.nextElementSibling && node.nextElementSibling.tagName === 'P') {
+      array.push(node);
   }
 }
   return array;
@@ -65,8 +65,9 @@ function findAllPSiblings(where) {
  */
 function findError(where) {
   let result = [];
-    for (let node of where.childNodes) {
-        result.push(where.child.innerText);
+  const array = where.children;
+    for (let node of array) {
+        result.push(node.innerHTML);
     }
 
     return result;
@@ -82,10 +83,10 @@ function findError(where) {
    должно быть преобразовано в <div></div><p></p>
  */
 function deleteTextNodes(where) {
-  let element = where.childNodes;
+  let array = where.childNodes;
   for (let child of where.childNodes) {
-      if (element.nodeType === 3) {
-        element.parentNode.removeChild(element);
+      if (child.nodeType === 3) {
+        where.removeChild(child);
       }
   }
 }
@@ -99,17 +100,16 @@ function deleteTextNodes(where) {
    должно быть преобразовано в <span><div><b></b></div><p></p></span>
  */
 function deleteTextNodesRecursive(where) {
-  {
-    let child = where.childNodes;
-    for (let child of where.childNodes) {
+
+    let array = where.childNodes;
+    for (let child of array) {
 
         if (child.nodeType === 3) {
             where.removeChild(child);
-        } else if (child.nodeType === 1) {
+        } else if (child.hasChildNodes()) {
             deleteTextNodesRecursive(child); // вызываем рекурсию
         }
     }
-}
 }
 
 /*
