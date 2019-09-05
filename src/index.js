@@ -34,7 +34,7 @@ function removeListener(eventName, target, fn) {
  */
 function skipDefault(eventName, target) {
   target.addEventListener(eventName, fn (eventName) {
-    eventName.preventDefault();)
+    eventName.preventDefault()});
 }
 
 /*
