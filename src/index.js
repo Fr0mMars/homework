@@ -9,7 +9,7 @@
    addListener('click', document.querySelector('a'), () => console.log('...')) // должна добавить указанный обработчик кликов на указанный элемент
  */
 function addListener(eventName, target, fn) {
-  target.addEventListener(eventName, fn(event));
+  target.addEventListener(eventName, fn);
 }
 
 /*
@@ -46,7 +46,8 @@ function skipDefault(eventName, target) {
    emulateClick(document.querySelector('a')) // для указанного элемента должно быть сэмулировано события click
  */
 function emulateClick(target) {
-
+  var click = new Event('click');
+  target.dispatchEvent(click);
 }
 
 /*
@@ -59,7 +60,11 @@ function emulateClick(target) {
    delegate(document.body, () => console.log('кликнули на button')) // добавит такой обработчик кликов для body, который будет вызывать указанную функцию только если кликнули на кнопку (элемент с тегом button)
  */
 function delegate(target, fn) {
-
+  target.addEventListener('click', event => {
+    if (event.target.tagName == 'BUTTON') {
+      fn();
+    }
+  });
 }
 
 /*
