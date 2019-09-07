@@ -32,11 +32,12 @@ function removeListener(eventName, target, fn) {
  Пример:
    skipDefault('click', document.querySelector('a')) // после вызова функции, клики на указанную ссылку не должны приводить к переходу на другую страницу
  */
-function skipDefault(eventName, target) {
-  target.addEventListener(eventName, fn (eventName) {
-    eventName.preventDefault()});
-}
 
+function skipDefault(eventName, target) {
+  target.addEventListener(eventName, function (eventName) {
+      eventName.preventDefault();
+  });
+}
 /*
  Задание 4:
 
