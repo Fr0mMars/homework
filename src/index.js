@@ -79,11 +79,8 @@ function delegate(target, fn) {
  */
 function once(target, fn) {
   target.addEventListener('click', function (f) {
-    if (f.target.tagName == "BUTTON") {
         fn();
-        target.removeEventListener(eventName, fn);
-    }
-})
+  },      {once: true});
 }
 
 export {
