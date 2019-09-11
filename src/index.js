@@ -12,7 +12,7 @@ function delayPromise(seconds) {
   return new Promise(function (resolve, reject) {
     setTimeout(function () {
         resolve();
-    }, seconds);
+    }, seconds * 1000);
 });
 }
 
@@ -37,7 +37,7 @@ function loadAndSortTowns() {
     xhr.responseType = 'json';
     xhr.addEventListener('load', () => {
       if (xhr.status >= 400) {
-        console.log('ERROR');
+        alert('ERROR');
       } else {
         resolve(xhr.response.sort(function (a, b) {
             if (a.name > b.name) {
