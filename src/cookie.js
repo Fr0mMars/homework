@@ -44,70 +44,123 @@ const addButton = homeworkContainer.querySelector('#add-button');
 const listTable = homeworkContainer.querySelector('#list-table tbody');
 
 function isMatching(full, chunk) {
-    full = full.toLowerCase();
-    chunk = chunk.toLowerCase();
-    return full.indexOf(chunk) !== -1;
+    if (chunk == null) {
+        chunk = '';
+    }
+    if (full == null) {
+        full = '';
+    }
+
+    let fullS = full.toLowerCase();
+    let chunkS = chunk.toLowerCase();
+
+    if (fullS.indexOf(chunkS) > -1) {
+        return true;
+    }
+    return false;
 }
 
-function create(name, value) {
+addButton.addEventListener('click', createCookieTr);
+function createCookieTr(name, value) {
+    name = addNameInput.value;
+    value = addValueInput.value;
+    let filter = filterNameInput.value;
+    let cokasNames = document.querySelectorAll('.cookie_name');
+    if (filter.length > 0) {
+        if (isMatching(value, filter) == false) {
+            for (var prop in cokasNames) {
+                if (isMatching(cokasNames[prop].innerHTML, name) && !isMatching(cokasNames[prop].nextElementSibling.innerHTML, value)) {
+                    var thisTr = cokasNames[prop].parentNode;
+
+                    listTable.removeChild(thisTr);
+                    cokasNames[prop].parentNode.style.backgroundColor = 'red';
+                    document.cookie = name + '=' + value;
+                    return;
+                }
+            }
+        }
+        if (isMatching(name, filter) || isMatching(value, filter)) {
+            listTable.appendChild(createTr(name, value));
+            document.cookie = name + '=' + value;
+            return;
+        } 
+        if (!isMatching(name, filter)) {
+            document.cookie = name + '=' + value;
+            return;
+        }
+    }
+    if (document.querySelectorAll('.cookie_name').length == 0) {
+        listTable.appendChild(createTr(name, value));
+        document.cookie = name + '=' + value;
+        return;
+    }
+    if (document.querySelectorAll('.cookie_name').length > 0) {
+        for (var key in document.querySelectorAll('.cookie_name')) {    
+            if (document.querySelectorAll('.cookie_name')[key].innerHTML != name) {
+                continue;
+            } else if (document.querySelectorAll('.cookie_name')[key].innerHTML == name) {
+                document.querySelectorAll('.cookie_name')[key].nextElementSibling.innerHTML = value;
+                document.cookie = name + '=' + value;
+                return;
+            }
+        }
+    } 
+    listTable.appendChild(createTr(name, value));
+    document.cookie = name + '=' + value;
+}
+
+function createTr(name, value) {
     let tr = document.createElement('tr');
-    tr.innerHTML = '<td>'+name+'</td><td>'+value+'</td><td><button>Удалить</button></td>';
+    let td1 = document.createElement('td');
+    td1.setAttribute('class', 'cookie_name');
+    let td2 = document.createElement('td');
+    td2.setAttribute('class', 'cookie_value');
+    let td3 = document.createElement('td');
+    td3.setAttribute('class', 'deleteCookies');
+    td1.innerHTML = name;
+    td2.innerHTML = value;
+    let button = document.createElement('button');
+    button.innerHTML = 'Удалить';
+    button.classList.add('deleteCookies');
+    td3.appendChild(button);
+    tr.appendChild(td1);
+    tr.appendChild(td2);
+    tr.appendChild(td3);
     return tr;
 }
 
-function get() {
-    if (!document.cookie)
-        return;
-    return document.cookie
-        .split('; ')
-        .filter(Boolean)
-        .map(cookie => cookie.match(/^([^=]+)=(.+)/))
-        .reduce((obj, [, name, value]) => {
-            obj[name] = value;
-            return obj;
-        }, {});
+homeworkContainer.addEventListener('click', deleteTableRow);
+function deleteTableRow(e) {
+    if (e.target.classList.contains('deleteCookies')) {
+        listTable.removeChild(e.target.parentNode.parentNode);
+        let cookieNameToDelete = e.target.parentNode.parentNode.children[0].innerHTML;
+        let cookieValueToDelete = e.target.parentNode.parentNode.children[1].innerHTML; 
+        document.cookie = cookieNameToDelete + '=' + cookieValueToDelete + ';expires=' + new Date(0);
+    } 
 }
-
-function write() {
-    let cookies = get(), cookie;
-    if (filterNameInput.value === '') {
-        while (listTable.firstChild)
-            listTable.removeChild(listTable.firstChild);
-        for (cookie in cookies)
-            listTable.appendChild(create(cookie, cookies[cookie]));
-    }
-}
-
-function append() {
-    let cookies = get(), cookie;
-    if (filterNameInput.value !== '') {
-        while (listTable.firstChild)
-            listTable.removeChild(listTable.firstChild);
-        for (cookie in cookies)
-            if (isMatching(cookie, filterNameInput.value) || isMatching(cookies[cookie], filterNameInput.value))
-                listTable.appendChild(create(cookie, cookies[cookie]));
-    }
-    else
-        write();
-}
-
-function remove(event){
-    if (event.target.nodeName === 'BUTTON') {
-        let tr = event.target.parentNode.parentNode;
-        document.cookie = event.target.parentNode.parentNode.firstChild.innerText+'=; expires='+new Date(0);
-        tr.remove();
-    }
-}
-
-write();
 
 filterNameInput.addEventListener('keyup', function() {
-    append
+    makeTable();
 });
 
-addButton.addEventListener('click', () => {
-    document.cookie = addNameInput.value+'='+addValueInput.value;
-    append();
-});
+function makeTable() {
+    let x = document.cookie.split('=').join().split(';').join().split(',');
+    let filterInputValue = filterNameInput.value;
+    listTable.innerHTML = '';
+    if (!filterInputValue) {
+        for (let z = 0; z < x.length; ) {
+             let p = z + 1;
 
-listTable.addEventListener('click', remove(event));
+            listTable.appendChild(createTr(x[z], x[p]));
+            z = z + 2
+        }
+        return;
+    }
+    for (let i = 0; i < x.length; ) {
+        let k = i + 1;
+        if (isMatching(x[i], filterInputValue) || isMatching(x[k], filterInputValue) ) {
+            listTable.appendChild(createTr(x[i], x[k]));
+        }
+        i = i + 2;
+    }
+}
