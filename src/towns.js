@@ -36,26 +36,9 @@ const homeworkContainer = document.querySelector('#homework-container');
  Массив городов пожно получить отправив асинхронный запрос по адресу
  https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json
  */
+import {loadAndSortTowns} from './index'
 function loadTowns() {
-  return Promise = new Promise((resolve) => {
-    const xhr = new XMLHttpRequest();
-    xhr.open('GET', 'https://raw.githubusercontent.com/smelukov/citiesTest/master/cities.json');
-    xhr.responseType = 'json';
-    xhr.addEventListener('load', () => {
-        loadingBlock.innerHTML = '';
-        filterBlock.style.display = 'inline-block';
-        resolve(xhr.response.sort(function (a, b) {
-            if (a.name > b.name) {
-                return 1;
-            }
-            if (a.name < b.name) {
-                return -1;
-            }
-            return 0;
-        }));
-    });
-    xhr.send();
-});
+  return loadAndSortTowns();
 }
 
 /*
@@ -70,11 +53,7 @@ function loadTowns() {
    isMatching('Moscow', 'Moscov') // false
  */
 function isMatching(full, chunk) {
-  if (full.toLowerCase().indexOf(chunk.toLowerCase()) !== -1) {
-    return true;
-  } else {
-    return false;
-  }
+  return full.toUpperCase().includes(chunk.toUpperCase());
 }
 
 /* Блок с надписью "Загрузка" */
@@ -86,9 +65,35 @@ const filterInput = homeworkContainer.querySelector('#filter-input');
 /* Блок с результатами поиска */
 const filterResult = homeworkContainer.querySelector('#filter-result');
 
-filterInput.addEventListener('keyup', function() {
-    // это обработчик нажатия кливиш в текстовом поле
-});
+loadTowns()
+    .then(sortTowns => {
+        filterBlock.style.display = 'block';
+        loadingBlock.style.display = 'none';
+ 
+        filterInput.addEventListener('keyup', function (event) {
+            // это обработчик нажатия кливиш в текстовом поле
+            let chunk = event.target.value;
+           
+            filterResult.innerHTML = '';
+            for (let index = 0; index < sortTowns.length; index++) {
+                const element = sortTowns[index].name;
+                if (isMatching(element, chunk)) {
+                    let div = document.createElement('div');
+                    div.textContent = element;
+                    filterResult.appendChild(div);
+ 
+                }
+ 
+            }
+ 
+            if (!chunk) {
+                filterResult.innerHTML = '';
+            }
+        });
+    })
+    .catch(() => {
+       
+    })
 
 export {
     loadTowns,
