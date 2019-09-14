@@ -117,7 +117,9 @@ console.log(returnArgumentsArray(1, 2, 3, 4, 5, 'Hello world'));
 
    console.log(newSum()) выведет 6
  */
-function bindFunction(fn) {
+function bindFunction(fn, ...a) {
+  fn = fn.bind(null, ...a);
+  return fn;
 }
 
 export {
