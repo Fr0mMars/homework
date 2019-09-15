@@ -67,6 +67,20 @@
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
 function slice(array, from, to) {
+  if (from => 0) {
+    for (let i = from; i <= to; i++) {
+        array.push(i);
+    }
+} else {
+(from <= 0)
+
+{
+    for (let i = from; i <= -1; i++) {
+        array.push(i);
+    }
+
+}
+}
 }
 
 /*
