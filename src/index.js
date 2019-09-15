@@ -66,23 +66,21 @@
  Напишите аналог встроенного метода slice для работы с массивами
  Посмотрите как работает slice и повторите это поведение для массива, который будет передан в параметре array
  */
-function slice(array, from, to) {
-  if (from => 0) {
-    for (let i = from; i <= to; i++) {
-        array.push(i);
-    }
-} else {
-(from <= 0)
-
-{
-    for (let i = from; i <= -1; i++) {
-        array.push(i);
-    }
-
+function slice(array, from = 0, to = array.length) {
+  const arr = [];
+  if (to < 0) {
+      to = array.length + to;
+  }
+  if (from < 0) {
+      from = array.length + from;
+  }
+  for (let i = from; i < to; i++) {
+      if (array[i]) {
+        arr.push(array[i])
+      }
+  }
+  return arr;
 }
-}
-}
-
 /*
  Задание 6 *:
 
@@ -90,6 +88,12 @@ function slice(array, from, to) {
  Proxy должен перехватывать все попытки записи значений свойств и возводить это значение в квадрат
  */
 function createProxy(obj) {
+  return new Proxy(obj, {
+      set(obj, key, value) { // obj = {} key = a value = 10
+          obj[key] = value ** 2;
+          return true;
+      }
+  });
 }
 
 export {
