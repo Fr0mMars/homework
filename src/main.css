@@ -1,0 +1,13 @@
+.wrap {
+    position: relative;
+    width: 1200px;
+    height: 600px;
+    margin: auto;
+    border: 1px solid rgb(3, 2, 102);
+}
+
+.logo {
+    position: absolute;
+    top: 85%;
+    left: 90%;
+}
