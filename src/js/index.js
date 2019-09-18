@@ -62,14 +62,14 @@ ymaps.ready(function () {
                     '<div class = "review__text" style="width: 380px; height: 160px; overflow-y: auto">' +
                     '</div>' +
                     '<form id = "Review" name = "youReview" >' +
-                        '<div class = "youReview_title" style="color: #ff8663; "> Отзыв </div>' +
+                        '<div class = "youReview_title" style="color: #ff8663; "> ВАШ ОТЗЫВ </div>' +
                         '<input name = "rname" type="text" placeholder="Ваше имя" style="width: 360px; height: 30px;' +
                          'margin-top: 15px; border-radius: 20px; padding-left: 15px; border: 1px solid #c4c4c4;' +
                          'font-size: 16px; ">' +
                         '<input name = "rlocal" type="text" placeholder="Укажите место" style="width: 360px;' +
                          'height: 30px; border-radius: 20px; padding-left: 15px; border: 1px solid #c4c4c4;' +
                          'font-size: 16px; margin-top: 15px">' +
-                        '<textarea  name= "rtext" placeholder="Напишите отзыв" style="width: 360px;' +
+                        '<textarea  name= "rtext" placeholder="Поделитесь впечатлениями" style="width: 360px;' +
                         'height: 130px; border-radius: 20px; padding-left: 15px; border: 1px solid #c4c4c4;' +
                         'font-size: 16px; margin-top: 15px">' + '</textarea>' +
                         '<input type="submit" value = "Добавить" style="width: 88px; background-color: #ff8663;' +
@@ -102,19 +102,19 @@ ymaps.ready(function () {
 
                         Review.addEventListener('click', function (e) {
 
-                            if (e.target.className === 'title__cross') { // если нажат крестик - закрытия формы
-                                map.balloon.close(); // закрываем баллун
+                            if (e.target.className === 'title__cross') {
+                                map.balloon.close();
                             }
-                            if (e.target.type === 'submit') { // если нажата кнопка - submit
+                            if (e.target.type === 'submit') {
                                 let rname, rlocal, rtext, address;
 
                                 let elForm =e.target.parentElement;
 
                                 for (let i = 0; i < elForm.children.length; i++ ) {
-                                    if (elForm.children[i].name === 'rname') { // получаем имя написавшего отзыв
+                                    if (elForm.children[i].name === 'rname') {
                                         rname = elForm.children[i].value;
                                     }
-                                    if (elForm.children[i].name === 'rlocal') { // получаем место отзыва
+                                    if (elForm.children[i].name === 'rlocal') {
                                         rlocal = elForm.children[i].value;
                                     }
                                     if (elForm.children[i].name === 'rtext') {
