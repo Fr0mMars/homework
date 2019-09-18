@@ -7,20 +7,20 @@ ymaps.ready(function () {
     map.behaviors.disable([
         'scrollZoom'
     ]);
-    map.controls.add('zoomControl');
 
-    var storage = sessionStorage;
+    map.controls.add('zoomControl');
+    let storage = sessionStorage;
         if (storage.Review) {
             storage.clear();
         }
 
-    var customItemContentLayout = ymaps.templateLayoutFactory.createClass(
+    let customItemContentLayout = ymaps.templateLayoutFactory.createClass(
         '<h3 class=ballon_header>{{ properties.balloonContentHeader|raw }}</h3>' +
             '<div class=ballon_body>{{ properties.balloonContentBody|raw }}</div>'+ '<br>' +
             '<div class=ballon_footer>{{ properties.balloonContentFooter|raw }}</div>'
     );
 
-    var clusterer = new ymaps.Clusterer({
+    let clusterer = new ymaps.Clusterer({
         clusterDisableClickZoom: true,
         clusterOpenBalloonOnClick: true,
         clusterBalloonContentLayout: 'cluster#balloonCarousel',
@@ -31,23 +31,22 @@ ymaps.ready(function () {
         clusterBalloonPagerSize: 5
     });
 
-    var placemarks = [];
-    var coordinats;
+    let placemarks = [];
+    let coords;
 
     map.events.add('click', function (e) {
-        coordinats = e.get('coords');
-        getAddress(coordinats);
+        coords = e.get('coords');
+        getAddress(coords);
     });
 
     function getAddress(coords, cluster = 0) {
-
         ymaps.geocode(coords).then(function (res) {
-            var firstGeoObject = res.geoObjects.get(0);
-            var address = firstGeoObject.getAddressLine();
-            var reviewTexts;
-            var place;
+            let firstGeoObject = res.geoObjects.get(0);
+            let address = firstGeoObject.getAddressLine();
+            let reviewTexts;
+            let place;
 
-            var MyballoonContentLayoutClass = ymaps.templateLayoutFactory.createClass(
+            let MyballoonContentLayoutClass = ymaps.templateLayoutFactory.createClass(
                 '<div class ="review" style="width: 380px; height: 530px;overflow: visible">' +
                     '<div class = "review__title" style="display: flex; align-items: center;' +
                         'width: 380px; height: 45px; background-color: #ff8663; border-top-left-radius: 15px;' +
@@ -63,7 +62,7 @@ ymaps.ready(function () {
                     '<div class = "review__text" style="width: 380px; height: 160px; overflow-y: auto">' +
                     '</div>' +
                     '<form id = "Review" name = "youReview" >' +
-                        '<div class = "youReview_title" style="color: #ff8663; "> Ваш отзыв </div>' +
+                        '<div class = "youReview_title" style="color: #ff8663; "> Отзыв </div>' +
                         '<input name = "rname" type="text" placeholder="Ваше имя" style="width: 360px; height: 30px;' +
                          'margin-top: 15px; border-radius: 20px; padding-left: 15px; border: 1px solid #c4c4c4;' +
                          'font-size: 16px; ">' +
@@ -80,20 +79,20 @@ ymaps.ready(function () {
                 '</div>', {
                     build: function () {
                         MyballoonContentLayoutClass.superclass.build.call(this);
-                        var Review = document.querySelector('.review');
-                        var reviewText = document.querySelector('.review__text');
-                        var texts = reviewText.innerHTML;
-                        var ArrayObj =[];
-                        var Obj ={};
-                        var address = firstGeoObject.getAddressLine();
+                        let Review = document.querySelector('.review');
+                        let reviewText = document.querySelector('.review__text');
+                        let texts = reviewText.innerHTML;
+                        let ArrayObj =[];
+                        let Obj ={};
+                        let address = firstGeoObject.getAddressLine();
 
-                        if (storage.Review) {
+                    if (storage.Review) {
                             ArrayObj = JSON.parse(storage.Review);
                             if (ArrayObj.length) {
-                                for (var i = 0; i < ArrayObj.length; i++) {
+                                for (let i = 0; i < ArrayObj.length; i++) {
                                     if (ArrayObj[i].address === address) {
                                         texts = texts + '<b>' + ArrayObj[i].name + '</b>' + ' ' +
-                                            ArrayObj[i].local + '<br>' + ArrayObj[i].text + '<br>';
+                                        ArrayObj[i].local + '<br>' + ArrayObj[i].text + '<br>';
                                         reviewText.innerHTML = texts;
                                         reviewTexts = reviewText.innerText;
                                     }
@@ -102,17 +101,20 @@ ymaps.ready(function () {
                         }
 
                         Review.addEventListener('click', function (e) {
-                            if (e.target.className === 'title__cross') {
-                                map.balloon.close();
+
+                            if (e.target.className === 'title__cross') { // если нажат крестик - закрытия формы
+                                map.balloon.close(); // закрываем баллун
                             }
-                            if (e.target.type === 'submit') {
-                                var rname, rlocal, rtext, address;
-                                var elForm =e.target.parentElement;
-                                for (var i = 0; i < elForm.children.length; i++ ) {
-                                    if (elForm.children[i].name === 'rname') {
+                            if (e.target.type === 'submit') { // если нажата кнопка - submit
+                                let rname, rlocal, rtext, address;
+
+                                let elForm =e.target.parentElement;
+
+                                for (let i = 0; i < elForm.children.length; i++ ) {
+                                    if (elForm.children[i].name === 'rname') { // получаем имя написавшего отзыв
                                         rname = elForm.children[i].value;
                                     }
-                                    if (elForm.children[i].name === 'rlocal') {
+                                    if (elForm.children[i].name === 'rlocal') { // получаем место отзыва
                                         rlocal = elForm.children[i].value;
                                     }
                                     if (elForm.children[i].name === 'rtext') {
@@ -127,14 +129,15 @@ ymaps.ready(function () {
                                 texts = texts + '<b>' + rname + '</b>' + ' ' + rlocal + '<br>' + rtext + '<br>';
                                 reviewText.innerHTML = texts;
                                 reviewTexts = reviewText.innerText;
-                                ArrayObj = JSON.parse(storage.Review);
-                                var counterMark =0;
 
-                                for (var i = 0; i < ArrayObj.length; i++) {
+                                ArrayObj = JSON.parse(storage.Review);
+                                let counterMark =0;
+
+                                for (let i = 0; i < ArrayObj.length; i++) {
                                     if (ArrayObj[i].address === address && counterMark === 0 && cluster === 0) {
                                         counterMark = counterMark +1;
                                         reviewTexts = ArrayObj[i].text;
-                                        var place = ArrayObj[i].local;
+                                        let place = ArrayObj[i].local;
                                         placemark.properties.set({
                                             balloonContentHeader: place,
                                             balloonContentFooter: reviewTexts
@@ -144,11 +147,9 @@ ymaps.ready(function () {
                                         map.geoObjects.add(clusterer);
                                     }
                                 }
-
                                 e.preventDefault();
-
                             }
-                        })
+                        });
                     }
                 });
             map.balloon.open([coords[0], coords[1]], address, {
@@ -157,7 +158,7 @@ ymaps.ready(function () {
                 maxHeight: 530,
                 maxWidth: 380
             });
-            var placemark = new ymaps.Placemark([coords[0], coords[1]], {
+            let placemark = new ymaps.Placemark([coords[0], coords[1]], {
                 balloonContentHeader: place,
                 balloonContentBody: '<a href = "#">' +address + '</a>',
                 balloonContentFooter: reviewTexts
@@ -169,17 +170,18 @@ ymaps.ready(function () {
                     balloonPanelMaxMapArea: 0,
                     balloonCloseButton: false
                 }
-        ); 
+        );
 
         clusterer.balloon.events.add('click', function (e) {
-            var clastLink = document.querySelector('.ballon_body');
-            clastLink = clastererLink.innerText;
-            ymaps.geocode(clastLink).then(function (res) {
-                var coordinatsAddress = res.geoObjects.get(0).geometry.getCoords();
-                getAddress(coordinatsAddress, cluster = 1);
-            })
-        })
-    })
-    }
+            let clastererLink = document.querySelector('.ballon_body');
+            clastererLink = clastererLink.innerText;
+            ymaps.geocode(clastererLink).then(function (res) {
+                let coordsAddress = res.geoObjects.get(0).geometry.getCoordinates();
+                getAddress(coordsAddress, cluster = 1);
+            });
+        });
+    });
+  }
+
     clusterer.balloon.open(clusterer.getClusters()[0]);
 });
